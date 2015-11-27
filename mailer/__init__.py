@@ -1,4 +1,4 @@
-VERSION = (1, 0, 4)
+VERSION = (1, 0, 5)
 
 
 def get_version():
@@ -19,7 +19,7 @@ def send_mail(subject, message, from_email, recipient_list, priority="medium", f
     from django.utils.encoding import force_text
     from django.core.mail import EmailMessage
     from mailer.models import Message, PRIORITY_MAPPING
-    
+
     priority = PRIORITY_MAPPING[priority]
     subject = force_text(subject)
     message = force_text(message)

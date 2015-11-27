@@ -28,11 +28,15 @@ class EmailTemplateSender(object):
         context = Context(kwargs['context_data'])
         email_template = self.get_email_template_object(template_name, cached_template_obj)
 
+        subject_template = self.subject_before_render(email_template, kwargs['language_code'])
+        subject = Template(subject_template).render(context).encode('utf-8')
+        subject = self.subject_after_render(subject)
+
         html_template = self.before_render(email_template, kwargs['language_code'])
         html_message = Template(html_template).render(context).encode('utf-8')
         html_message = self.after_render(html_message)
 
-        kwargs['subject'] = getattr(email_template, 'subject_%s' % kwargs['language_code'])
+        kwargs['subject'] = subject
         kwargs['message_html'] = html_message
         kwargs['recipient_list'] = recipient_list
         kwargs['attachments'] = attachments
@@ -50,6 +54,12 @@ class EmailTemplateSender(object):
 
     def after_render(self, html):
         return html
+
+    def subject_before_render(self, email_template, language_code):
+        return getattr(email_template, 'subject_%s' % language_code)
+
+    def subject_after_render(self, subject):
+        return subject
 
     def before_sent(self, **kwargs):
         pass
