@@ -11,14 +11,15 @@ __version__ = get_version()
 
 
 def send_mail(subject, message, from_email, recipient_list, priority='medium', fail_silently=False, auth_user=None,
-              auth_password=None, headers=None, attachments=None, content_object=None, tag=None, reply_to_list=None):
+              auth_password=None, headers=None, attachments=None, content_object=None, tag=None, template_slug=None,
+              reply_to_list=None):
     """
     Function to queue e-mails
     """
 
     from django.utils.encoding import force_text
     from django.core.mail import EmailMessage
-    from mailer.models import Message, PRIORITY_MAPPING
+    from mailer.models import Message, PRIORITY_MAPPING, STATUS_PENDING, STATUS_DEBUG
 
     headers = headers or {}
     priority = PRIORITY_MAPPING[priority]
@@ -35,10 +36,12 @@ def send_mail(subject, message, from_email, recipient_list, priority='medium', f
         reply_to=reply_to_list
     )
     db_msg = Message(
+        status=STATUS_PENDING if not getattr('MAILER_DEBUG', False) else STATUS_DEBUG,
         priority=priority,
         subject=subject,
         content_object=content_object,
-        tag=tag
+        tag=tag,
+        template_slug=template_slug
     )
     db_msg.email = email_obj
     db_msg.set_recipients(recipient_list)
@@ -48,15 +51,15 @@ def send_mail(subject, message, from_email, recipient_list, priority='medium', f
 
 
 def send_html_mail(subject, message, message_html, from_email, recipient_list, priority='medium', fail_silently=False,
-                   auth_user=None, auth_password=None, headers=None, attachments=None, content_object=None, tag=None,
-                   reply_to_list=None):
+                   auth_user=None, auth_password=None, headers=None, attachments=(), content_object=None, tag=None,
+                   template_slug=None, reply_to_list=None):
     """
     Function to queue HTML e-mails
     """
 
     from django.utils.encoding import force_text
     from django.core.mail import EmailMultiAlternatives
-    from mailer.models import Message, PRIORITY_MAPPING
+    from mailer.models import Message, PRIORITY_MAPPING, STATUS_PENDING, STATUS_DEBUG
 
     headers = headers or {}
     priority = PRIORITY_MAPPING[priority]
@@ -76,14 +79,19 @@ def send_html_mail(subject, message, message_html, from_email, recipient_list, p
     )
     email_obj.attach_alternative(message_html, 'text/html')
     db_msg = Message(
+        status=STATUS_PENDING if not getattr('MAILER_DEBUG', False) else STATUS_DEBUG,
         priority=priority,
         subject=subject,
         content_object=content_object,
-        tag=tag
+        tag=tag,
+        template_slug=template_slug
     )
     db_msg.email = email_obj
     db_msg.set_recipients(recipient_list)
     db_msg.set_reply_to(reply_to_list)
     db_msg.save()
+
+    for attachment in attachments:
+        db_msg.attachments.create(file=attachment)
 
     return db_msg

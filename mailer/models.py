@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 import base64
 import pickle
 
+from six import python_2_unicode_compatible
+
 try:
     from django.utils.timezone import now as datetime_now
     datetime_now  # workaround for pyflakes
@@ -13,9 +15,12 @@ except ImportError:
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.text import mark_safe
-from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.utils.encoding import python_2_unicode_compatible
+
+try:
+    from django.contrib.contenttypes.fields import GenericForeignKey
+except ImportError:
+    from django.contrib.contenttypes.generic import GenericForeignKey
 
 
 PRIORITY_HIGH = 1
@@ -29,19 +34,21 @@ PRIORITY_CHOICES = (
 )
 
 PRIORITY_MAPPING = {
-    "high": PRIORITY_HIGH,
-    "medium": PRIORITY_MEDIUM,
-    "low": PRIORITY_LOW,
-    }
+    'high': PRIORITY_HIGH,
+    'medium': PRIORITY_MEDIUM,
+    'low': PRIORITY_LOW,
+}
 
 STATUS_PENDING = 0
 STATUS_SENT = 1
 STATUS_DEFERRED = 2
+STATUS_DEBUG = 2
 
 STATUS_CHOICES = (
-    (STATUS_PENDING, _("Pending")),
-    (STATUS_SENT, _("Sent")),
-    (STATUS_DEFERRED, _("Deferred")),
+    (STATUS_PENDING, _('Pending')),
+    (STATUS_SENT, _('Sent')),
+    (STATUS_DEFERRED, _('Deferred')),
+    (STATUS_DEBUG, _('Debug'))
 )
 
 
@@ -104,6 +111,7 @@ class Message(models.Model):
     subject = models.TextField(blank=True, null=True, verbose_name=_('Subject'))
 
     tag = models.SlugField(null=True, blank=True)
+    template_slug = models.SlugField(null=True, blank=True)
     content_type = models.ForeignKey(ContentType, null=True, blank=True)
     object_id = models.PositiveIntegerField(null=True, blank=True)
     content_object = GenericForeignKey('content_type', 'object_id')
@@ -166,8 +174,22 @@ class Message(models.Model):
     get_email_content_for_admin_field.short_description = _('Email content')
 
     def __str__(self):
-        return str(self.pk)
+        return '#{}' % self.pk
 
     class Meta:
         verbose_name = _('message')
         verbose_name_plural = _('messages')
+
+
+@python_2_unicode_compatible
+class Attachment(models.Model):
+
+    message = models.ForeignKey(Message, related_name='attachments')
+    file = models.FileField(verbose_name=_('file'), null=False, blank=False, upload_to='/mailer')
+
+    def __str__(self):
+        return '#{}' % self.pk
+
+    class Meta:
+        verbose_name = _('attachment')
+        verbose_name_plural = _('attachments')
