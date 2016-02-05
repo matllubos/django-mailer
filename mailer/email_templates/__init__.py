@@ -10,8 +10,8 @@ from mailer.email_templates import config
 
 class EmailTemplateSender(object):
     default_context_data = {}
-    default_from_email = config.EMAIL_DEFAULT_FROM_EMAIL
-    default_priority = config.EMAIL_DEFAULT_PRIORITY
+    default_from_email = config.MAILER_DEFAULT_FROM_EMAIL
+    default_priority = config.MAILER_DEFAULT_PRIORITY
     default_auth_user = None
     default_auth_password = None
     default_headers = {}
@@ -30,7 +30,7 @@ class EmailTemplateSender(object):
         context = Context(kwargs['context_data'])
         email_template = self.get_email_template_object(template_name, cached_template_obj)
 
-        subject_template = self.subject_before_render(email_template, kwargs['language_code'])
+        subject_template = self.subject_before_render(email_template)
         subject = Template(subject_template).render(context).encode('utf-8')
         subject = self.subject_after_render(subject)
 
@@ -63,8 +63,8 @@ class EmailTemplateSender(object):
     def after_sent(self, **kwargs):
         pass
 
-    def subject_before_render(self, email_template, language_code):
-        return getattr(email_template, 'subject_%s' % language_code)
+    def subject_before_render(self, email_template):
+        return email_template.subject
 
     def subject_after_render(self, subject):
         return subject
@@ -76,7 +76,7 @@ class EmailTemplateSender(object):
         return self.after_render(Template(html_template).render(context).encode('utf-8'))
 
     def get_email_template_class(self):
-        return get_model(*config.MAILER_TEMPLATE_MODEL) if config.MAILER_TEMPLATE_MODEL else EmailTemplate
+        return config.get_email_template_model()
 
     def get_email_template_object(self, template_name=None, template_obj=None):
         model = self.get_email_template_class()

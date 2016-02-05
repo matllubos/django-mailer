@@ -21,7 +21,7 @@ LOCK_WAIT_TIMEOUT = getattr(settings, "MAILER_LOCK_WAIT_TIMEOUT", -1)
 
 EMAIL_LOCK_FILE = getattr(settings, "MAILER_LOCK_FILE", "mailer_send_mail")
 
-#maximum mails count wich could be send per one 'send_all' execution
+# maximum mails count wich could be send per one 'send_all' execution
 MAXIMUM_MAILS_PER_COMMAND = getattr(settings, "MAILER_MAXIMUM_EMAILS_PER_COMMAND", -1)
 
 
@@ -34,6 +34,7 @@ def prioritize(max_mails):
         return qs[:max_mails]
     return qs
 
+
 def send_all():
     """
     Send all eligible messages in the queue.
@@ -41,9 +42,9 @@ def send_all():
     # The actual backend to use for sending, defaulting to the Django default.
     # To make testing easier this is not stored at module level.
     EMAIL_BACKEND = getattr(settings, "MAILER_EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend")
-    
+
     lock = FileLock(EMAIL_LOCK_FILE)
-    
+
     logging.debug("acquiring lock...")
     try:
         lock.acquire(LOCK_WAIT_TIMEOUT)
@@ -54,12 +55,12 @@ def send_all():
         logging.debug("waiting for the lock timed out. quitting.")
         return
     logging.debug("acquired.")
-    
+
     start_time = time.time()
 
     deferred = 0
     sent = 0
-    
+
     try:
         connection = None
         for message in prioritize(MAXIMUM_MAILS_PER_COMMAND):
@@ -83,7 +84,7 @@ def send_all():
         logging.debug("releasing lock...")
         lock.release()
         logging.debug("released.")
-    
+
     logging.info("")
     logging.info("%s sent; %s deferred;" % (sent, deferred))
     logging.info("done in %.2f seconds" % (time.time() - start_time))
@@ -94,7 +95,7 @@ def send_loop():
     Loop indefinitely, checking queue at intervals of EMPTY_QUEUE_SLEEP and
     sending messages if any are on queue.
     """
-    
+
     while True:
         while not Message.objects.all():
             logging.debug("sleeping for %s seconds before checking queue again" % EMPTY_QUEUE_SLEEP)

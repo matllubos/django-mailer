@@ -24,7 +24,7 @@ setup(
         "Framework :: Django",
     ],
     install_requires = [
-        'Django >= 1.8',
+        'Django >= 1.6',
         'six >= 1.9',
-        ],
+    ],
 )

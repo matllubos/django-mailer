@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-30 14:31+0100\n"
+"POT-Creation-Date: 2016-02-06 12:55+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,82 +18,110 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: email_templates/models.py:8
-msgid "Slug"
-msgstr "Slug"
-
-#: email_templates/models.py:9 models.py:101
-msgid "Subject"
-msgstr "Předmět"
-
-#: email_templates/models.py:10
-msgid "HTML body"
-msgstr "HTML obsah"
-
-#: email_templates/models.py:17
-msgid "E-mail"
-msgstr "E-mail"
-
-#: email_templates/models.py:18
-msgid "E-mails"
-msgstr "E-maily"
-
-#: models.py:24
+#: models.py:35
 msgid "High"
 msgstr "Vysoká"
 
-#: models.py:25
+#: models.py:36
 msgid "Medium"
 msgstr "Střední"
 
-#: models.py:26
+#: models.py:37
 msgid "Low"
 msgstr "Nízká"
 
-#: models.py:40
+#: models.py:52
 msgid "Pending"
 msgstr "Čekající"
 
-#: models.py:41
+#: models.py:53
 msgid "Sent"
 msgstr "Odesláno"
 
-#: models.py:42
+#: models.py:54
 msgid "Deferred"
 msgstr "Odloženo"
 
-#: models.py:93
-msgid "Priority"
-msgstr "Priorita"
+#: models.py:55
+msgid "Debug"
+msgstr "Debug"
 
-#: models.py:95
-msgid "Status"
-msgstr "Stav"
+#: models.py:129
+msgid "priority"
+msgstr "priorita"
 
-#: models.py:96
-msgid "Created"
-msgstr "Vytvořeno"
+#: models.py:131
+msgid "status"
+msgstr "stav"
 
-#: models.py:97
-msgid "Updated"
-msgstr "Aktualizováno"
+#: models.py:132
+msgid "created"
+msgstr "vytvořeno"
 
-#: models.py:99
-msgid "Recipients"
-msgstr "Příjemci"
+#: models.py:133
+msgid "updated"
+msgstr "aktualizováno"
 
-#: models.py:100
-msgid "Reply to"
-msgstr "Odpovědět na"
+#: models.py:135
+msgid "recipients"
+msgstr "příjemci"
 
-#: models.py:114
+#: models.py:136
+msgid "reply to"
+msgstr "odpovědět na"
+
+#: models.py:137
+msgid "subject"
+msgstr "předmět"
+
+#: models.py:140
+msgid "template slug"
+msgstr "slug šablony"
+
+#: models.py:200
+msgid "e-mail content"
+msgstr "obsah e-mailu"
+
+#: models.py:207
+msgid "related object"
+msgstr "vztažené objekty"
+
+#: models.py:213 models.py:234
+msgid "attachments"
+msgstr "přílohy"
+
+#: models.py:219
 msgid "message"
 msgstr "zpráva"
 
-#: models.py:115
+#: models.py:220
 msgid "messages"
 msgstr "zprávy"
 
-#: models.py:170
-msgid "Email content"
-msgstr "Obsah emailu"
+#: models.py:227
+msgid "file"
+msgstr "soubor"
+
+#: models.py:233
+msgid "attachment"
+msgstr "příloha"
+
+#: email_templates/models.py:10
+msgid "Slug"
+msgstr "Slug"
+
+#: email_templates/models.py:11
+msgid "Subject"
+msgstr "Předmět"
+
+#: email_templates/models.py:12
+msgid "HTML body"
+msgstr "HTML obsah"
+
+#: email_templates/models.py:19
+msgid "E-mail"
+msgstr "E-mail"
+
+#: email_templates/models.py:20
+msgid "E-mails"
+msgstr "E-maily"
