@@ -1,10 +1,8 @@
 from __future__ import unicode_literals
 
 from django.template import Context, Template
-from django.db.models.loading import get_model
 
 from mailer import send_html_mail
-from mailer.email_templates.models import EmailTemplate
 from mailer.email_templates import config
 
 
