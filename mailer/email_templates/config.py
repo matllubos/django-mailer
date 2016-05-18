@@ -15,7 +15,12 @@ except:
 
 
 def get_email_template_model():
-    from django.db.models import get_model
+    try:
+        from django.apps import apps
+        get_model = apps.get_model
+    except ImportError:
+        # For Django < 1.7
+        from django.db.models import get_model
 
     try:
         app_label, model_name = settings.MAILER_TEMPLATE_MODEL.split('.')
