@@ -1,23 +1,21 @@
 import logging
 from optparse import make_option
 
-from django.core.management.base import NoArgsCommand
+from django.core.management.base import BaseCommand
 from django.db import connection
 
 from mailer.models import Message
 
 
-class Command(NoArgsCommand):
+class Command(BaseCommand):
     help = "Attempt to resend any deferred mail."
-    base_options = (
-        make_option('-c', '--cron', default=0, type='int',
-            help='If 1 don\'t print messagges, but only errors.'
-        ),
-    )
-    option_list = NoArgsCommand.option_list + base_options
-    
-    def handle_noargs(self, **options):
-        if options['cron'] == 0:
+
+    def add_arguments(self, parser):
+        parser.add_argument('-c', '--cron', dest='cron', action='store_true', default=False,
+                            help='If 1 don\'t print messagges, but only errors.')
+
+    def handle(self, cron, **options):
+        if not cron:
             logging.basicConfig(level=logging.DEBUG, format="%(message)s")
         else:
             logging.basicConfig(level=logging.ERROR, format="%(message)s")
