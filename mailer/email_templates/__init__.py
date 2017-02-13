@@ -21,12 +21,13 @@ class EmailTemplateSender(object):
     def send_html_mail_from_email_template(self, template_name, recipient_list, attachments=None,
                                            cached_template_obj=None, **kwargs):
 
-        for attr_name in ('context_data', 'from_email', 'priority', 'fail_silently', 'auth_user',
+        for attr_name in ('context_data', 'priority', 'fail_silently', 'auth_user',
                           'auth_password', 'headers', 'message', 'content_object', 'tag'):
-            kwargs[attr_name] = kwargs.get(attr_name, getattr(self, 'default_%s' % attr_name))
+            kwargs[attr_name] = kwargs.get(attr_name, getattr(self, 'default_{}'.format(attr_name)))
 
         context = Context(kwargs['context_data'])
         email_template = self.get_email_template_object(template_name, cached_template_obj)
+        kwargs['from_email'] = email_template.from_email or self.default_from_email
 
         subject_template = self.subject_before_render(email_template)
         subject = Template(subject_template).render(context).encode('utf-8')

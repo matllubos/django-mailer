@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-06 12:55+0100\n"
+"POT-Creation-Date: 2017-02-13 21:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,82 +46,86 @@ msgstr "Odloženo"
 msgid "Debug"
 msgstr "Debug"
 
-#: models.py:129
+#: models.py:130
 msgid "priority"
 msgstr "priorita"
 
-#: models.py:131
+#: models.py:132
 msgid "status"
 msgstr "stav"
 
-#: models.py:132
+#: models.py:133
 msgid "created"
 msgstr "vytvořeno"
 
-#: models.py:133
+#: models.py:134
 msgid "updated"
 msgstr "aktualizováno"
 
-#: models.py:135
+#: models.py:136 email_templates/models.py:17
+msgid "from email"
+msgstr "odesílatel"
+
+#: models.py:137
 msgid "recipients"
 msgstr "příjemci"
 
-#: models.py:136
+#: models.py:138
 msgid "reply to"
 msgstr "odpovědět na"
 
-#: models.py:137
+#: models.py:139
 msgid "subject"
 msgstr "předmět"
 
-#: models.py:140
+#: models.py:142
 msgid "template slug"
 msgstr "slug šablony"
 
-#: models.py:200
+#: models.py:202
 msgid "e-mail content"
 msgstr "obsah e-mailu"
 
-#: models.py:207
+#: models.py:209
 msgid "related object"
 msgstr "vztažené objekty"
 
-#: models.py:213 models.py:234
+#: models.py:215 models.py:236
 msgid "attachments"
 msgstr "přílohy"
 
-#: models.py:219
+#: models.py:221
 msgid "message"
 msgstr "zpráva"
 
-#: models.py:220
+#: models.py:222
 msgid "messages"
 msgstr "zprávy"
 
-#: models.py:227
+#: models.py:229
 msgid "file"
 msgstr "soubor"
 
-#: models.py:233
+#: models.py:235
 msgid "attachment"
 msgstr "příloha"
 
-#: email_templates/models.py:10
+#: email_templates/models.py:14
 msgid "Slug"
 msgstr "Slug"
 
-#: email_templates/models.py:11
+#: email_templates/models.py:15
 msgid "Subject"
 msgstr "Předmět"
 
-#: email_templates/models.py:12
+#: email_templates/models.py:16
 msgid "HTML body"
 msgstr "HTML obsah"
 
-#: email_templates/models.py:19
+#: email_templates/models.py:25
 msgid "E-mail"
 msgstr "E-mail"
 
-#: email_templates/models.py:20
+#: email_templates/models.py:26
 msgid "E-mails"
 msgstr "E-maily"
