@@ -47,8 +47,8 @@ def send_mail(subject, message, from_email, recipient_list, priority='medium', f
     email_obj = EmailMessage(**get_email_message_kwargs(subject, message, from_email, recipient_list, reply_to_list,
                                                         attachments, headers))
 
-    return Message.objects.create_from_email_obj(subject, recipient_list, reply_to_list, email_obj, attachments,
-                                                 priority, tag, template_slug, content_object)
+    return Message.objects.create_from_email_obj(subject, recipient_list, reply_to_list, from_email, email_obj,
+                                                 attachments, priority, tag, template_slug, content_object)
 
 
 def send_html_mail(subject, message, message_html, from_email, recipient_list, priority='medium', fail_silently=False,
@@ -71,5 +71,5 @@ def send_html_mail(subject, message, message_html, from_email, recipient_list, p
                                                                   reply_to_list, attachments, headers))
     email_obj.attach_alternative(message_html, 'text/html')
 
-    return Message.objects.create_from_email_obj(subject, recipient_list, reply_to_list, email_obj, attachments,
-                                                 priority, tag, template_slug, content_object)
+    return Message.objects.create_from_email_obj(subject, recipient_list, reply_to_list, from_email, email_obj,
+                                                 attachments, priority, tag, template_slug, content_object)

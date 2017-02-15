@@ -77,7 +77,7 @@ class MessageManager(models.Manager):
                 count += 1
         return count
 
-    def create_from_email_obj(self, subject, recipient_list, reply_to_list, email_obj, attachments, priority,
+    def create_from_email_obj(self, subject, recipient_list, reply_to_list, from_email, email_obj, attachments, priority,
                               tag=None, template_slug=None, content_object=None):
 
         db_msg = Message(
@@ -85,7 +85,8 @@ class MessageManager(models.Manager):
             priority=PRIORITY_MAPPING[priority],
             subject=subject,
             tag=tag,
-            template_slug=template_slug
+            template_slug=template_slug,
+            from_email=from_email
         )
         if content_object:
             db_msg.content_object = content_object
@@ -131,7 +132,8 @@ class Message(models.Model):
                                          verbose_name=_('status'))
     created = models.DateTimeField(blank=False, null=False, default=datetime_now, verbose_name=_('created'))
     updated = models.DateTimeField(blank=False, null=False, auto_now=True, verbose_name=_('updated'))
-    # Recipients and subject are cached attrs (for list view)
+    # Sender, recipients and subject are cached attrs (for list view)
+    from_email = models.CharField(blank=True, null=True, max_length=200, verbose_name=_('from email'))
     recipients = models.TextField(blank=True, null=True, verbose_name=_('recipients'))
     reply_to = models.TextField(blank=True, null=True, verbose_name=_('reply to'))
     subject = models.TextField(blank=True, null=True, verbose_name=_('subject'))
