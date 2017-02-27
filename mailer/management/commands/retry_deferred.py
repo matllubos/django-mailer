@@ -18,7 +18,7 @@ class Command(BaseCommand):
         if not cron:
             logging.basicConfig(level=logging.DEBUG, format="%(message)s")
         else:
-            logging.basicConfig(level=logging.ERROR, format="%(message)s")
+            logging.basicConfig(stream=self.stdout, level=logging.ERROR, format="%(message)s")
         count = Message.objects.retry_deferred()
         logging.info("%s message(s) retried" % count)
         connection.close()
