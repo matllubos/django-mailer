@@ -23,7 +23,7 @@ class Command(BaseCommand):
         if not cron:
             logging.basicConfig(level=logging.DEBUG, format="%(message)s")
         else:
-            logging.basicConfig(stream=self.stdout, level=logging.ERROR, format="%(message)s")
+            logging.basicConfig(stream=self.stderr, level=logging.ERROR, format="%(message)s")
         logging.info("-" * 72)
         # if PAUSE_SEND is turned on don't do anything.
         if not PAUSE_SEND:
