@@ -4,6 +4,12 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 
+from django.conf import settings
+
+
+MAILER_SENDER_EMAILS = getattr(settings, 'MAILER_SENDER_EMAILS', ())
+MAILER_SENDER_EMAILS_CHOICES = list(zip(MAILER_SENDER_EMAILS, MAILER_SENDER_EMAILS)) if MAILER_SENDER_EMAILS else None
+
 
 class Migration(migrations.Migration):
 
@@ -15,7 +21,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='emailtemplate',
             name='from_email',
-            field=models.CharField(blank=True, max_length=200, null=True, verbose_name='from email'),
+            field=models.CharField(blank=True, max_length=200, null=True, verbose_name='from email', choices=MAILER_SENDER_EMAILS_CHOICES),
         ),
         migrations.AddField(
             model_name='message',
