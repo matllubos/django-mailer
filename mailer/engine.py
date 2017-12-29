@@ -69,6 +69,11 @@ def send_all():
                 logging.info("sending message [%s] '%s' to %s" % (message.id, message.subject, message.recipients))
                 email = message.email
                 email.connection = connection
+                if not hasattr(email, 'reply_to'):
+                    # Compatability fix for EmailMessage objects
+                    # pickled when running < Django 1.8 and then
+                    # unpickled under Django 1.8
+                    email.reply_to = []
                 email.send()
                 message.set_sent()
                 sent += 1
